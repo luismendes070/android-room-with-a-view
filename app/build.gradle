@@ -1,13 +1,14 @@
 plugins {
     id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 32
     defaultConfig {
-        applicationId "com.example.android.roomwordssample"
-        minSdkVersion 20
-        targetSdkVersion 30
+        applicationId "com.github.luismendes070.example.android.roomwordssample"
+        minSdkVersion 21
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -19,12 +20,47 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    applicationVariants.all { variant ->
+        // Return compile configuration objects of a variant.
+        variant.getCompileConfiguration().resolutionStrategy {
+            // Use Gradle's ResolutionStrategy API
+            // to customize how this variant resolves dependencies.
+            // ...
+        }
+        // Return runtime configuration objects of a variant.
+        variant.getRuntimeConfiguration().resolutionStrategy {
+            // ...
+        }
+        // Return annotation processor configuration of a variant.
+        variant.getAnnotationProcessorConfiguration().resolutionStrategy {
+            // ...
+        }
     }
 }
 
 dependencies {
+
+    // kotlin hello world
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    // end kotlin hello world
+
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
 
     // Dependencies for working with Architecture components
@@ -32,12 +68,26 @@ dependencies {
 
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
     annotationProcessor "androidx.room:room-compiler:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
 
+    // classpath 'com.android.tools.build:gradle:7.1.2'
+    // classpath 'com.google.gms:google-services:4.3.10'
+
     // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-viewmodel:$rootProject.lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-livedata:$rootProject.lifecycleVersion"
+    debugImplementation ("androidx.lifecycle:lifecycle-viewmodel:$rootProject.lifecycleVersion", {
+        exclude group: ':app:checkDebugDuplicateClasses', module: 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+        exclude group: ':app:checkDebugDuplicateClasses', module: 'androidx.lifecycle:lifecycle-viewmodel:2.4.1'
+    })
+
+    // Duplicate modules https://developer.android.com/studio/build/dependencies#resolution_errors
+    // androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1
+    // androidx.lifecycle:lifecycle-viewmodel:2.4.1
+
+    implementation ("androidx.lifecycle:lifecycle-livedata:$rootProject.lifecycleVersion")
+
     implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.lifecycleVersion"
 
     // UI

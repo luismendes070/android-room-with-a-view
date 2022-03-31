@@ -1,0 +1,19 @@
+package(
+    default_visibility = ["//src:__subpackages__"],
+)
+
+android_library(
+    name = "greeter_activity",
+    srcs = [
+        "Greeter.java",
+        "MainActivity.java",
+    ],
+    manifest = "AndroidManifest.xml",
+    resource_files = glob(["res/**"]),
+)
+
+maven_jar(
+    name = "dagger",
+    artifact = "com.google.dagger:dagger:2.41",
+    sha1 = "7e97c67d31bc400683803121a4aa91b1e001006f",
+)
